@@ -1,33 +1,49 @@
 import React, { Component } from "react";
 // import ReactDOM from "react-dom";
 // import {BrowserRouter as Router, Route, Link} from "react-router-dom";
-import "./mainBoard.css";
+import "./mainBoard.css"; 
 
-const BoardList = () =>{
-	return(
-		<div class="textBoxList">
-			<div class="textBoxNormal">顯示內容1</div>
-			<div class="textBox">
-				<div class="textBoxNormal">顯示內容2</div>
-				<div class="editBox">
-					<div class="editBoxItem">編輯</div>
-					<div class="editBoxItem">刪除</div>
+class BoardList extends Component{
+	constructor(props){
+		super(props);
+	}
+
+	remove(e){
+		e.preventDefault();
+		alert("remove");
+	}
+
+	revise(e){
+		e.preventDefault();
+		alert("revise");
+	}
+
+	render(){
+		return(
+			<div className="textBoxList">
+			<div className="textBoxNormal">顯示樣式1</div>
+			<div className="textBox">
+				<div className="textBoxNormal">顯示樣式2</div>
+				<div className="editBox">
+					<div className="editBoxItem" onClick={this.revise.bind(this)}>訂正</div>
+					<div className="editBoxItem" onClick={this.remove.bind(this)}>刪除</div>
 				</div>
 			</div>
 			
-			<div class="textBoxNormal">顯示內容3+被修改的樣式</div>
-			<div class="textBox">
-				<div class="textBoxEdit">顯示內容3+被修改的樣式</div>
-				<div class="editBox">
-					<div class="editBoxItem">編輯</div>
-					<div class="editBoxItem">刪除</div>
-					<div class="editBoxItem">筆記</div>
+			<div className="textBoxNormal">顯示樣式3+被修改的樣式</div>
+			<div className="textBox">
+				<div className="textBoxEdit">顯示樣式3+被修改的樣式</div>
+				<div className="editBox">
+					<div className="editBoxItem">訂正</div>
+					<div className="editBoxItem">刪除</div>
+					<div className="editBoxItem">筆記</div>
 				</div>
 			</div>
 
-			<div class="textBoxNormal">顯示內容4</div>
-		</div>
-    )
-}	 
+			<div className="textBoxNormal">顯示樣式1</div>
+		</div>			
+		)
+	}
+}
 
 export default BoardList;
