@@ -1,0 +1,60 @@
+html, body{
+	font-family: PingFangTC, 微軟正黑體;
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+.mainPic{
+    /* background-image:url("pic01.jpg" ); */
+    background-repeat:no-repeat;
+    height: 650px;
+    margin-top: 40px;
+
+    /* 背景圖片等比例縮放 */
+    background-size: cover;
+    position: relative;
+}
+
+.accountDiv{
+    background-color: white;
+    opacity:0.9;
+    padding:80px 60px;
+    z-index: 1;
+    position: absolute;
+    margin-top: 70px;
+    /* margin-left: 500px; */
+    margin-left: 55%;
+    border-radius: 15px;
+}
+
+.accountInputDiv{
+    margin: 20px 0px;
+    font-size: 16px;
+}
+
+input{
+    width: 250px;
+    height:24px;
+    font-size: 16px;
+}
+
+input:focus{
+    border-color: #0070e5;
+}
+
+button{
+    background-color: #3b5998;
+    color: white;
+    font-family: 微軟正黑體, Microsoft JhengHei;
+    border: 0;
+    border-radius: 5px;
+
+    height:28px;
+    width: 48px;
+}
+
+.beforeSignup{
+    border-bottom: 1px solid grey;
+    margin: 20px 0px;
+}

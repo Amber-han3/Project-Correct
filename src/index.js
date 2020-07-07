@@ -1,7 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Navbar from "./navbar/navbar";
-import MainBoard from "./board/mainBoard"
+// import MainBoard from "./board/mainBoard"
+import LoginPage from "./loginPage/loginPage";
 
 // import BoardList from "./board/boardList" 
 
@@ -11,8 +12,9 @@ class MainPage extends React.Component{
     render(){
         return <div>
             <Navbar />
-            <MainBoard />
+            {/* <MainBoard /> */}
             {/* <BoardList /> */}
+            <LoginPage />
         </div>   
     }
 }
