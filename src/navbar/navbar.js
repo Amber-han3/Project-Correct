@@ -12,7 +12,8 @@ const Navbar = () =>{
                 <li>筆記</li>
                 <li>尋找</li>
                 <li>帳號</li>
-                <li>登入/登出</li>
+                <li>登入</li>
+                <li>登出</li>  
             </ul>
 	    </div>
     )

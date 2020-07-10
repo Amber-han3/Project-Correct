@@ -2,7 +2,13 @@ import React, { Component } from "react";
 // import ReactDOM from "react-dom";
 // import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import "./mainBoard.css";
-import BoardList from "./boardList"
+import BoardList from "./boardList";
+
+import firebase from './firebase';
+
+// firebase相關
+
+const db = firebase.firestore();
 
 class MainBoard extends Component{
     constructor(props){
@@ -10,6 +16,25 @@ class MainBoard extends Component{
         this.state={text:"", allContent:[], //紀錄文字內容用
         revise:"false",
         };  
+
+        // 官網的讀取測試(只讀取集合)
+        db.collection("users").get().then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                // console.log(`${doc.id} => ${doc.data()}`);
+                // 可以跨doc讀到全部comment欄位
+                console.log(`${doc.id} => ${doc.data().comment}`);
+
+                // 把讀取到的id存到allContent，跟removeID一樣作法
+
+                // 測試直接把東西存進state
+
+                this.state.allContent.push(doc.data().comment);
+        
+                this.setState({allContent:this.state.allContent});
+                console.log("allContent:"+this.state.allContent);
+            });
+        });
+        
     }
 
     handleTextChange(e){
@@ -25,7 +50,27 @@ class MainBoard extends Component{
 
         this.setState({allContent:this.state.allContent});
         console.log("allContent:"+this.state.allContent);
-    }
+
+        // // firebase相關
+
+        const firebase = require("firebase");
+        // Required for side-effects
+        require("firebase/firestore");
+
+        // 可把回覆存進database了
+
+        db.collection("users").add({
+            userID: "no",
+            comment: postText,
+        })
+        .then(function(docRef) {
+            console.log("Document written with comment: ", docRef.id.comment);
+        })
+        .catch(function(error) {
+            console.error("Error adding document: ", error);
+        });
+
+    } 
 
     remove(e){
 		e.preventDefault();
@@ -36,6 +81,25 @@ class MainBoard extends Component{
         let textList= [...this.state.allContent]
         textList.splice(indexValue, 1); 
         this.setState({allContent:textList});
+
+        // // 先讀取自動生成的文件id
+
+        // db.collection("users").get().then((querySnapshot) => {
+        //     querySnapshot.forEach((doc) => {
+        //         console.log(`${doc.id} => ${doc.data().comment}`);
+
+        //         console.log(this.state.allContent[indexValue]);
+        //     });
+        // });
+
+        // 同步刪除firebase內容
+        // const firebase = require("firebase");
+        // // Required for side-effects
+        // require("firebase/firestore");
+        // // db.ref('users').child(id).remove();
+        // // firebase.firestore().ref('users').child(id).remove();
+        // firebase.firestore().ref('users').child(hnHPrASSZFA7JxZk1gN0).remove();
+
 	}
 
 	revise(e){
@@ -53,7 +117,6 @@ class MainBoard extends Component{
     saveChange(e){
         this.setState({revise: "false"});
     }
-    
 
     render(){
 

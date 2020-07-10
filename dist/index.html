@@ -4,9 +4,39 @@
 <html>
     <head>
         <title>Correct</title>
+        <meta name="viewport" content="width=device-width">
     </head>
     <body>
         <div id="root"></div>
         <script src="main.js"></script>
+
+
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+        <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-app.js"></script>
+
+        <!-- TODO: Add SDKs for Firebase products that you want to use
+            https://firebase.google.com/docs/web/setup#available-libraries -->
+        <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-analytics.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-firestore.js"></script>
+
+        <script>
+            
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyD06qVRGjbI5aE3a6XhmE1CqKMSVSiB7G8",
+            authDomain: "project-correct.firebaseapp.com",
+            databaseURL: "https://project-correct.firebaseio.com",
+            projectId: "project-correct",
+            storageBucket: "project-correct.appspot.com",
+            messagingSenderId: "949037451012",
+            appId: "1:949037451012:web:a0665a258bc92baa7c7251",
+            measurementId: "G-091MGMZTB5"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+        </script>
+
     </body>
 </html>
