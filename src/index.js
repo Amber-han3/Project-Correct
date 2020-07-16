@@ -35,6 +35,27 @@ import LoginPage from "./loginPage/loginPage";
 // 加router
 
 class MainPage extends React.Component{
+
+    logout(e){
+        // alert("logout");
+        firebase.auth();
+        const user = firebase.auth().currentUser;
+        console.log(user);
+    
+        if (user != null) {
+            firebase.auth().signOut()
+            .then(()=>{
+                // this.setState({loginState:true});
+                // console.log(this.state.loginState);
+                alert("已登出");
+
+                const user = firebase.auth().currentUser;
+                console.log(user);
+            });
+          
+        };
+    }
+
     render(){
         return <Router>
             <div>
@@ -50,7 +71,9 @@ class MainPage extends React.Component{
                         <li>
                             <Link to="/login">登入</Link> 
                         </li>
-                        <li>登出</li>
+                        <li id="logout" onClick={this.logout.bind(this)}>
+                            <Link to="/login">登出</Link> 
+                        </li>
                     </ul>
                 </div>
                 {/* <LoginPage />

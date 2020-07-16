@@ -3,7 +3,10 @@ import React from "react";
 // import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import "./navbar.css";
 
+// 先改直接在index上設router
+
 const Navbar = () =>{
+    
 	return(
         <div className="headerLine">
             <div className="websiteTitle">CORRECT</div>

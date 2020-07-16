@@ -13,58 +13,71 @@ const db = firebase.firestore();
 class MainBoard extends Component{
     constructor(props){
         super(props);
-        this.state={text:"", allContent:[], //紀錄文字內容用
+        this.state={text:"", commentWithID:[],  //紀錄文字內容用
         revise:"false",
         };  
 
-        // 官網的讀取測試(只讀取集合)
+        // 讀取firebase資料
         db.collection("users").get().then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
-                // console.log(`${doc.id} => ${doc.data()}`);
                 // 可以跨doc讀到全部comment欄位
                 console.log(`${doc.id} => ${doc.data().comment}`);
 
-                // 把讀取到的id存到allContent，跟removeID一樣作法
-
-                // 測試直接把東西存進state
-
-                this.state.allContent.push(doc.data().comment);
-        
-                this.setState({allContent:this.state.allContent});
-                console.log("allContent:"+this.state.allContent);
+                // 把讀取到的id存到state
+                this.state.commentWithID.push({commentID: doc.id, comment: doc.data().comment});
+                this.setState({commentWithID:this.state.commentWithID});
+                console.log("commentWithID:"+this.state.commentWithID);
+                // console.log("commentID:"+this.state.commentWithID[0].commentID);
+                // console.log("comment:"+this.state.commentWithID[0].comment);
             });
         });
         
     }
 
     handleTextChange(e){
-        if (typeof(e.currentTarget.value) == "string" || typeof(e.currentTarget.value) == "number" ){
-            this.setState({text:e.currentTarget.value});
-        }   //目前好像沒作用
+        // this.setState({text: this.state.text});
     }
 
     addNewPost(e){
         e.preventDefault();
-        let postText=this.state.text;
-        this.state.allContent.push(postText);
+        let postText=document.getElementById("textareaDiv").value
+        // this.setState({text: postText});
+        // console.log(this.state.text);
 
-        this.setState({allContent:this.state.allContent});
-        console.log("allContent:"+this.state.allContent);
-
-        // // firebase相關
+        // firebase相關
 
         const firebase = require("firebase");
         // Required for side-effects
         require("firebase/firestore");
 
-        // 可把回覆存進database了
+        // 把回覆存進database
+
+        const submitTime = new Date()
 
         db.collection("users").add({
+            time: submitTime,
             userID: "no",
             comment: postText,
         })
-        .then(function(docRef) {
-            console.log("Document written with comment: ", docRef.id.comment);
+        .then((docRef) => {
+             console.log("Document written with comment: ", docRef.id.comment);
+
+            // 取出db內容傳入新陣列，再放入state(避免重複render)
+
+             db.collection("users").get().then((querySnapshot) => {
+                let data=[];
+                querySnapshot.forEach((doc) => {
+    
+                    //this.state.commentWithID.push({commentID: doc.id, comment: doc.data().comment});
+                    //this.setState({commentWithID:this.state.commentWithID});
+    
+                    data.push({commentID: doc.id, comment: doc.data().comment});
+                    console.log(data);
+                });
+                console.log(this.state.commentWithID);
+                this.setState({commentWithID:data});
+            });         
+
         })
         .catch(function(error) {
             console.error("Error adding document: ", error);
@@ -75,43 +88,28 @@ class MainBoard extends Component{
     remove(e){
 		e.preventDefault();
         
-        let removeID=event.target.getAttribute("id");
-        let indexValue=Number(removeID);
-
-        let textList= [...this.state.allContent]
+        // 在state裡的id
+        let indexValue=event.target.getAttribute("id");
+        let textList= [...this.state.commentWithID]
         textList.splice(indexValue, 1); 
-        this.setState({allContent:textList});
+        this.setState({commentWithID:textList});
 
-        // // 先讀取自動生成的文件id
-
-        // db.collection("users").get().then((querySnapshot) => {
-        //     querySnapshot.forEach((doc) => {
-        //         console.log(`${doc.id} => ${doc.data().comment}`);
-
-        //         console.log(this.state.allContent[indexValue]);
-        //     });
-        // });
+        // firbase的處理
+        let itemID=event.target.getAttribute("commentID");
 
         // 同步刪除firebase內容
-        // const firebase = require("firebase");
-        // // Required for side-effects
-        // require("firebase/firestore");
-        // // db.ref('users').child(id).remove();
-        // // firebase.firestore().ref('users').child(id).remove();
-        // firebase.firestore().ref('users').child(hnHPrASSZFA7JxZk1gN0).remove();
+        db.collection("users").doc(itemID).delete();
 
 	}
 
 	revise(e){
 		e.preventDefault();
-        alert("revise");
+        // alert("revise");
         
-        let text=this.state.text
-        console.log(text);
+        let itemID=event.target.getAttribute("commentID");
+        alert(itemID);
 
-        this.setState({revise: "true"});
-
-
+        // this.setState({revise: "true"});
     }
 
     saveChange(e){
@@ -120,22 +118,27 @@ class MainBoard extends Component{
 
     render(){
 
-        let newPostDiv = this.state.allContent.map((text, index)=>{
-            return <div id={index} className="textBox">
-                        <div id={index} className="textBoxNormal">{text}</div>
+        let newPostDiv = this.state.commentWithID.map((text, index)=>{
+                return  <div id={index} className="textBox">
+                            <div id={index} className="textBoxNormal" 
+                            commentID={text.commentID} >{text.comment}
 
-                        <div id={index} className="editBoxShow">
-                            <div id={index} className="editBoxItem" onClick={this.revise.bind(this)}>訂正</div>
-                            <div id={index} className="editBoxItem" onClick={this.remove.bind(this)}>刪除</div>
+                                <div id={index} className="editBoxShow">
+                                    <div id={index} commentID={text.commentID} 
+                                    className="editBoxItem" onClick={this.revise.bind(this)}>訂正</div>
+                                    <div id={index} commentID={text.commentID} 
+                                    className="editBoxItem" onClick={this.remove.bind(this)}>刪除</div>
+                                </div>
+                                
+                            </div>
                         </div>
-                    </div>
         })
 
         return(<div className="postboardAll">
                     {/* <div className="postboardPos"> */}
                         <div className="postarea">
-                            <textarea placeholder="分享點什麼吧" 
-                            value={this.state.text}
+                            <textarea placeholder="分享點什麼吧" id="textareaDiv"
+                            // value={this.state.text}
                             onChange={this.handleTextChange.bind(this)}></textarea>
                             <button className="postBtn" onClick={this.addNewPost.bind(this)}>送出</button>
                         </div>
@@ -143,8 +146,8 @@ class MainBoard extends Component{
                             <div>新增欄位從這開始</div>
                             {newPostDiv}
                         </div>
-                        <div>總樣式種類預覽</div>
-                        <BoardList />
+                        {/* <div>總樣式種類預覽</div>
+                        <BoardList /> */}
                     {/* </div> */}
                 </div>
         )
