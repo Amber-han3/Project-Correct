@@ -82,7 +82,7 @@ class MainPage extends React.Component{
                 <div>{this.props.children}</div>
 
                 <Switch>
-                    {/* 預設顯示登入頁 */}
+                    {/* 暫時預設顯示登入頁 */}
                     <Route exact path="/" component={LoginPage}></Route> 
 
                     {/* 登入tag之後要拿掉 */}
