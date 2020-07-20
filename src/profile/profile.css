@@ -1,0 +1,73 @@
+html, body{
+	font-family: PingFangTC, 微軟正黑體;
+	margin: 0;
+	padding: 0;
+    border: 0;
+}
+
+/* 個人帳號資料 */
+.profileAllDiv{
+    max-width:1000px;
+    margin-top:80px;
+    margin-bottom:20px;
+    display: flex;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    z-index:2;
+    background-color: white;
+    /* position: absolute; */
+}
+
+.profileBanner{
+    background-repeat:no-repeat;
+    height: 450px;
+    width: 100%;
+    /* margin-top: 40px; */
+
+    /* 背景圖片等比例縮放 */
+    background-size: cover;
+    background-position:center;
+    /* background-size: contain; */
+    /* position: relative; */
+}
+
+.profileMainDiv{
+    width: 100%;
+    justify-content: center;
+
+    border-width: 1px;
+    border-color: lightgrey;
+    border-style: solid;
+    border-radius: 5px;
+    box-shadow: 3px 3px 9px lightgrey;
+}
+
+/* 登入資訊 */
+.loginStatus{
+    margin: 10px;
+}
+
+.loginInforTitle{
+    font-size:20px;
+    font-weight:bold;
+    margin: 10px;
+}
+
+.loginInfor{
+    display: flex;
+    margin: 10px;
+}
+
+/* 歷史發文 */
+
+.profileMyPostDiv{
+    max-width:1000px;
+    margin:40px 0px;
+    display: flex;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    z-index:2;
+    background-color: white;
+}

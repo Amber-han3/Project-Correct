@@ -5,6 +5,9 @@ import "./loginPageCSS.css";
 import Pic01 from "./pic01.jpg"
 import firebase from '../board/firebase';
 
+
+import {withRouter} from "react-router-dom";
+
 firebase.auth();
 
 class LoginPage extends Component{
@@ -14,7 +17,6 @@ class LoginPage extends Component{
     }
    
     signin(e){
-        // alert(("signup"));
 
         const email = document.getElementById('mail').value;
         const password = document.getElementById('password').value;
@@ -23,34 +25,39 @@ class LoginPage extends Component{
             this.setState({loginState:true});
             console.log(this.state.loginState);
             alert("登入成功");
+
+            // 登入成功則跳轉到主頁面
+            this.props.history.push("/main");
+
         }).catch(function(error) {
             var errorCode = error.code;
             var errorMessage = error.message;
-            alert(errorCode+errorMessage);
+            console.log(errorCode+errorMessage);
+            alert("帳號或密碼輸入錯誤");
         });
 
-        firebase.auth().onAuthStateChanged(function(user) {
-            console.log(user);  
+        // firebase.auth().onAuthStateChanged(function(user) {
+        //     console.log(user);  
 
-            // // 處理中
-            // const user = firebase.auth().currentUser;
-            // let userName
-            // let userEmail
-            // let photoUrl
-            // let uid
-            // let emailVerified
+        //     // // 處理中
+        //     // const user = firebase.auth().currentUser;
+        //     // let userName
+        //     // let userEmail
+        //     // let photoUrl
+        //     // let uid
+        //     // let emailVerified
     
-            // if (user != null) {
-            //     userName = user.displayName;
-            //     userEmail = user.email;
-            //     photoUrl = user.photoURL;
-            //     emailVerified = user.emailVerified;
-            //     uid = user.uid;  
-            //     console.log(user);
-            //     console.log(userEmail);
-            // }
+        //     // if (user != null) {
+        //     //     userName = user.displayName;
+        //     //     userEmail = user.email;
+        //     //     photoUrl = user.photoURL;
+        //     //     emailVerified = user.emailVerified;
+        //     //     uid = user.uid;  
+        //     //     console.log(user);
+        //     //     console.log(userEmail);
+        //     // }
 
-          });
+        //   });
         
     }
 
@@ -63,7 +70,9 @@ class LoginPage extends Component{
         }).catch(function(error) {
             const errorCode = error.code;
             const errorMessage = error.message;
-            alert(errorCode+errorMessage);
+            console.log(errorCode+errorMessage);
+            alert("註冊帳號或密碼格式錯誤，註冊請在上方填入正確帳號密碼");
+
         });
     }
 
@@ -80,7 +89,7 @@ class LoginPage extends Component{
                         <div>密碼</div>
                         <input type="password" id="password"></input>
                     </div>
-                    <button onClick={this.signin.bind(this)}>登入</button>
+                    <button className="signBtn" onClick={this.signin.bind(this)}>登入</button>
                     <div className="beforeSignup"></div>
                     <div>或 
                         <div className="signup" onClick={this.signup.bind(this)} >註冊新帳號</div>
@@ -89,9 +98,6 @@ class LoginPage extends Component{
             </div>
 		)
     }
-    
-
-    
 }
 
 export default LoginPage;

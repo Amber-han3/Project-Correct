@@ -49,6 +49,8 @@ textarea {
     padding: 10px 10px;
     box-shadow:3px 3px 9px lightgrey;
 
+    background-color: white;
+
     /* 文字換行 */
     word-wrap:break-word; 
 }
