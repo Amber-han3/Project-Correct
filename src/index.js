@@ -4,15 +4,12 @@ import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link,
-    useRouteMatch,
-    useParams
+    Link
   } from "react-router-dom";
 
-  import { Redirect } from 'react-router'
+import { Redirect } from 'react-router'
 
-// 改把nav直接寫在index
-// import Navbar from "./navbar/navbar";
+
 import "./navbar/navbar.css";
 
 import MainBoard from "./board/mainBoard"
@@ -21,12 +18,24 @@ import ProfilePage from "./profile/profile";
 
 import firebase from './board/firebase';
 
-
 class MainPage extends React.Component{
     constructor(props){
         super(props);
-        this.state={loginStatus:false};
+        // this.state={loginStatus:false};
+        this.state={loginStatus:true};
     }
+
+    // checkLogin(e){
+    //     firebase.auth();
+    //     const user = firebase.auth().currentUser;
+    //     if (user != null){
+    //         this.setState({loginState:true});
+    //         console.log("uaer login");
+    //     }else{
+    //         this.setState({loginState:false});
+    //         console.log("guest");
+    //     }
+    // }
 
     logout(e){
         // alert("logout");
@@ -50,106 +59,56 @@ class MainPage extends React.Component{
         }
     }
 
+    componentDidMount(){
 
-    render(){
-        // firebase.auth();
-        // const user = firebase.auth().currentUser;
-        // console.log(user);
-    
-        // if (user != null||this.state.loginState) {
-        //     return <Router>
-        //         <div>
-        //             <div className="headerLine">
-        //                 <div className="websiteTitle">CORRECT</div>
-        //                 <ul className="navbar">
-        //                     {/* <li>
-        //                         <Link to="/homepage">首頁</Link>
-        //                     </li> */}
-        //                     <li>
-        //                         <Link to="/main">動態</Link>
-        //                     </li>
-        //                     <li>筆記</li>
-        //                     {/* <li>尋找</li> */}
-        //                     <li>
-        //                         <Link to="/profile">帳號</Link>
-        //                     </li>
-        //                     {/* <li>
-        //                         <Link to="/login">登入</Link> 
-        //                     </li> */}
-        //                     <li id="logout" onClick={this.logout.bind(this)}>
-        //                         <Link to="/logout">登出</Link> 
-        //                     </li>
-        //                 </ul>
-        //             </div>
-
-        //             <div>{this.props.children}</div>
-
-        //             <Switch>
-        //             {/* 預設顯示登入頁 */}
-        //                 <Route exact path="/" component={LoginPage}></Route>
-
-        //                 <Route path="/login" component={LoginPage}></Route>
-        //                 <Route path="/main" component={MainBoard}></Route> 
-        //                 <Route path="/profile" component={ProfilePage}></Route> 
-        //                 <Redirect from={"/logout"} to={"/login"} />
-        //             </Switch>
-        //         </div> 
-        //     </Router>
-        // }else{
-        //     return <Router>
-        //     <div>
-        //         <div className="headerLine">
-        //             <div className="websiteTitle">CORRECT</div>
-        //             <ul className="navbar">
-        //                 {/* <li>
-        //                     <Link to="/homepage">首頁</Link>
-        //                 </li> */}
-        //                 {/* <li>
-        //                     <Link to="/main">動態</Link>
-        //                 </li> */}
-        //                 {/* <li>筆記</li> */}
-        //                 {/* <li>尋找</li> */}
-        //                 {/* <li>
-        //                     <Link to="/profile">帳號</Link>
-        //                 </li> */}
-        //                 <li>
-        //                     <Link to="/login">登入</Link> 
-        //                 </li>
-        //             </ul>
-        //         </div>
-
-        //         <div>{this.props.children}</div>
-
-        //         <Switch>
-        //             {/* 預設顯示登入頁 */}
-        //             <Route exact path="/" component={LoginPage}></Route>
-
-        //             <Route path="/login" component={LoginPage}></Route>
-        //             <Route path="/main" component={MainBoard}></Route> 
-        //             <Route path="/profile" component={ProfilePage}></Route> 
-        //             <Redirect from={"/logout"} to={"/login"} />
-        //         </Switch>
-        //     </div> 
-        // </Router>           
-        // }
-         
+        firebase.auth().onAuthStateChanged((user)=> {
+            if (user) {
+                this.setState({loginState:true});
+                console.log("user login");
+            } else {
+                this.setState({loginState:false}); //確認這行是不是有問題
+                console.log("guest");
+            }
+        });
     }
 
     // 原本的render
     render(){
+        
+        let navbarChange
+        if(this.state.loginStatus){
+            navbarChange = <ul className="navbar">
+                        <li>
+                            <Link to="/main">動態</Link>
+                        </li>
+                        <li>
+                            <Link to="/profile">帳號</Link>
+                        </li>
+                        {/* nav切換處理好記得把登入拿掉 */}
+                        <li>
+                            <Link to="/login">登入</Link> 
+                        </li>
+                        <li id="logout" onClick={this.logout.bind(this)}>
+                            <Link to="/logout">登出</Link> 
+                        </li>
+                    </ul>
+        }
+        else{navbarChange =  <ul className="navbar">
+                    <li>
+                        <Link to="/login">登入</Link> 
+                    </li>
+                </ul>
+        }
+        
         return <Router>
             <div>
                 <div className="headerLine">
                     <div className="websiteTitle">CORRECT</div>
-                    <ul className="navbar">
-                        {/* <li>
-                            <Link to="/homepage">首頁</Link>
-                        </li> */}
+                    {navbarChange}
+                    {/* <ul className="navbar">
                         <li>
                             <Link to="/main">動態</Link>
                         </li>
-                        {/* <li>筆記</li> */}
-                        {/* <li>尋找</li> */}
                         <li>
                             <Link to="/profile">帳號</Link>
                         </li>
@@ -159,21 +118,20 @@ class MainPage extends React.Component{
                         <li id="logout" onClick={this.logout.bind(this)}>
                             <Link to="/logout">登出</Link> 
                         </li>
-                    </ul>
+                    </ul> */}
                 </div>
 
                 <div>{this.props.children}</div>
 
                 <Switch>
                     {/* 預設顯示登入頁 */}
-                    <Route exact path="/" component={LoginPage}></Route>
+                    {/* <Route exact path="/" component={LoginPage}></Route> */}
                      {/*記得換回來  */}
-                     {/* <Route exact path="/" component={ProfilePage}></Route> */}
+                     <Route exact path="/" component={MainBoard}></Route>
 
                     {/* 登入tag之後要拿掉 */}
                     <Route path="/login" component={LoginPage}></Route>
                     <Route path="/main" component={MainBoard}></Route> 
-                    {/* <Route path="/homepage" component={HomePage}></Route>  */}
                     <Route path="/profile" component={ProfilePage}></Route> 
                     <Redirect from={"/logout"} to={"/login"} />
                 </Switch>

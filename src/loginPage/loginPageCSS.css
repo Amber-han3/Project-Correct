@@ -8,8 +8,9 @@ html, body{
 .mainPic{
     /* background-image:url("pic01.jpg" ); */
     background-repeat:no-repeat;
-    height: 650px;
-    margin-top: 40px;
+    height: 600px;
+    /* margin-top: 40px; */
+    padding-top: 40px;
 
     /* 背景圖片等比例縮放 */
     background-size: cover;

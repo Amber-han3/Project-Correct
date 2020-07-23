@@ -5,6 +5,10 @@ html, body{
     border: 0;
 }
 
+/* .profilePic{
+
+} */
+
 /* 個人帳號資料 */
 .profileAllDiv{
     max-width:1000px;
@@ -41,6 +45,16 @@ html, body{
     border-style: solid;
     border-radius: 5px;
     box-shadow: 3px 3px 9px lightgrey;
+}
+
+.profileEditIcon{
+    height: 25px;
+    width: 25px;
+    margin-left: 10px;
+}
+
+.profileEditIcon:hover{
+    cursor: pointer;
 }
 
 /* 登入資訊 */

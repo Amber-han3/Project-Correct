@@ -1,12 +1,14 @@
 import React, { Component } from "react";
-// import ReactDOM from "react-dom";
-// import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import "./profile.css"; 
 import profile_default02 from "./profile_default02.jpg"
 import firebase from '../board/firebase';
+import edit2 from "./edit2.png"
+import saveChange from "./saveChange.png"
+import cancelChange from "./cancelChange.png"
+import profilePic01 from "./profilePic01.jpg"
 
 const db = firebase.firestore();
-firebase.auth();
+// firebase.auth();
 
 class ProfilePage extends Component{
 	constructor(props){
@@ -26,14 +28,13 @@ class ProfilePage extends Component{
 
         user.updateProfile({
         displayName: newName,
-        // }).then(function() {
         }).then(()=> {   
             this.setState({userName:newName, isEditing: false});
             console.log(this.state.isEditing)
             alert("修改成功");
         }).catch(function(error) {
             console.log(error);
-            // alert("修改失敗，請檢查輸入內容是否正確");
+            alert("修改失敗，請檢查輸入內容是否正確");
         });
     }
 
@@ -71,79 +72,59 @@ class ProfilePage extends Component{
     }
 
     render(){
-        if (this.state.isEditing) {
-            return (
-                <div>
-                <div className="profileAllDiv">
-                    <div className="profileMainDiv">
-                        <div className="profileBanner" style={{backgroundImage: "url("+profile_default02+")"}}>
 
-                        </div>
-                        <div className="loginStatus">
-                            <div className="loginInforTitle">帳號狀態</div>
-                            <div className="loginInfor">
-                                <div>註冊mail：</div>
-                                <div>{this.state.userEmail}</div>
-                            </div>
-                            <div className="loginInfor">
-                                <div>使用者名稱：</div>
-                                <input id="updateName" type="text" />
-                                <button onClick={this.updateNameData.bind(this)}>儲存</button>
-                                <button onClick={this.canceleditUsername.bind(this)}>取消</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="profileMyPostDiv">
-                    <div className="profileMainDiv">
-                        <div className="loginStatus">
-                            <div className="loginInforTitle">我發表的文章</div>
-                            {/* <div className="loginInfor">
-                                <div>註冊mail：</div>
-                                <div>{this.state.userEmail}</div>
-                            </div> */}
-                        </div>
-                    </div>
-                </div>
+        // 編輯顯示名稱欄位元件
+        let editUsername
+        if(this.state.isEditing) {
+            editUsername = <div className="loginInfor">
+                <div>使用者名稱：</div>
+                <input id="updateName" type="text" />
+                <img className="profileEditIcon" src={saveChange}
+                    onClick={this.updateNameData.bind(this)}></img>
+                <img className="profileEditIcon" src={cancelChange}
+                    onClick={this.canceleditUsername.bind(this)}></img>
             </div>
-            );
+        }else{
+            editUsername = <div className="loginInfor">
+                <div>使用者名稱：</div>
+                <div>{this.state.userName}</div>
+                <img className="profileEditIcon" src={edit2}
+                onClick={this.editUsername.bind(this)}></img>
+            </div>
         }
-		return(
+
+        // 畫面渲染
+
+        return (
             <div>
-                <div className="profileAllDiv">
-                    <div className="profileMainDiv">
-                        <div className="profileBanner" style={{backgroundImage: "url("+profile_default02+")"}}>
+            <div className="profileAllDiv">
+                <div className="profileMainDiv">
+                    <div className="profileBanner" style={{backgroundImage: "url("+profile_default02+")"}}>
 
-                        </div>
-                        <div className="loginStatus">
-                            <div className="loginInforTitle">帳號狀態</div>
-                            <div className="loginInfor">
-                                <div>註冊mail：</div>
-                                <div>{this.state.userEmail}</div>
-                            </div>
-                            <div className="loginInfor">
-                                <div>使用者名稱：</div>
-                                <div>{this.state.userName}</div>
-                                <button onClick={this.editUsername.bind(this)}>修改</button>
-                            </div>
-                        </div>
                     </div>
-                </div>
-
-                <div className="profileMyPostDiv">
-                    <div className="profileMainDiv">
-                        <div className="loginStatus">
-                            <div className="loginInforTitle">我發表的文章</div>
-                            {/* <div className="loginInfor">
-                                <div>註冊mail：</div>
-                                <div>{this.state.userEmail}</div>
-                            </div> */}
+                    <div className="loginStatus">
+                        <div className="loginInforTitle">帳號狀態</div>
+                        <div className="loginInfor">
+                            <div>註冊mail：</div>
+                            <div>{this.state.userEmail}</div>
                         </div>
+
+                        {/* 編輯顯示名稱元件 */}
+                        {editUsername}
+
                     </div>
                 </div>
             </div>
-		)
+
+            <div className="profileMyPostDiv">
+                <div className="profileMainDiv">
+                    <div className="loginStatus">
+                        <div className="loginInforTitle">我發表的文章</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        );
     }  
 }
 

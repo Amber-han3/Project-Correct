@@ -1,12 +1,7 @@
 import React, { Component } from "react";
-// import ReactDOM from "react-dom";
-// import {BrowserRouter as Router, Route, Link} from "react-router-dom";
 import "./loginPageCSS.css"; 
 import Pic01 from "./pic01.jpg"
 import firebase from '../board/firebase';
-
-
-import {withRouter} from "react-router-dom";
 
 firebase.auth();
 
@@ -38,26 +33,6 @@ class LoginPage extends Component{
 
         // firebase.auth().onAuthStateChanged(function(user) {
         //     console.log(user);  
-
-        //     // // 處理中
-        //     // const user = firebase.auth().currentUser;
-        //     // let userName
-        //     // let userEmail
-        //     // let photoUrl
-        //     // let uid
-        //     // let emailVerified
-    
-        //     // if (user != null) {
-        //     //     userName = user.displayName;
-        //     //     userEmail = user.email;
-        //     //     photoUrl = user.photoURL;
-        //     //     emailVerified = user.emailVerified;
-        //     //     uid = user.uid;  
-        //     //     console.log(user);
-        //     //     console.log(userEmail);
-        //     // }
-
-        //   });
         
     }
 
