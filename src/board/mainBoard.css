@@ -93,7 +93,16 @@ textarea {
 .textBoxNormal:hover{
     opacity: 1;
 }
+/* 發文者欄位 */
 
+.author{
+    border-bottom: gray;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    margin: 2px 0px;
+}
+
+/* 針對留言的功能區 */
 .textBoxEdit{
     height: auto;
     width: 100%;
@@ -117,16 +126,7 @@ textarea {
     height: 30px;
     width:100%;
     justify-content: flex-end;
-    /* margin-bottom: 20px; */
-    margin-bottom: 5px;
-}
-
-.editBoxHide{
-    display: none;
-    height: 30px;
-    width:100%;
-    justify-content: flex-end;
-    margin-bottom: 20px;
+    margin: 10px 0px;
 }
 
 .editBoxItem{
@@ -157,8 +157,8 @@ textarea {
 .replyInputDiv{
 
     width: 100%;
-    min-height: 250px;
-    height: 250px;
+    min-height: 280px;
+    height: 300px;
     font-size: 18px;
     font-family: 微軟正黑體, Microsoft JhengHei;
     border-radius: 5px;
@@ -166,4 +166,10 @@ textarea {
 
     background-color: white;
     padding: 15px;
+}
+
+.replyTarget{
+    background-color: lightgray;
+    font-weight: bold;
+    margin: 5px 0px;
 }

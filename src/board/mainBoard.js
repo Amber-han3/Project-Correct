@@ -7,17 +7,16 @@ import firebase from './firebase';
 // firebase相關
 
 const db = firebase.firestore();
-firebase.auth();
 
 class MainBoard extends Component{
     constructor(props){
         super(props);
         this.state={text:"", commentWithID:[],  //紀錄文字內容用
-            // loginStatus: false, userInfor:[],  //確認登入狀態
+            loginStatus: this.props.loginStatus,   //確認登入狀態
             userInfor:[],
             // reviseStatus:false, //文字訂正狀態
-            replyNow:false, replyDivID:"", replyTarget:[], //回覆狀態
-            userName:"路人", userEmail:"沒有紀錄", //先拆開來測試
+            replyNow:false, replyDivID:"", replyTarget:"", replyCollect:[], //回覆狀態
+            userName:"路人", userEmail:"沒有資料", //先拆開來測試
         };  
 
         // 讀取登入狀態
@@ -35,9 +34,6 @@ class MainBoard extends Component{
             uid = user.uid;  
             console.log(user);
 
-            // this.state.userInfor.push({userName:userName, userEmail:userEmail});
-            // this.setState({userInfor: this.state.userInfor});
-            // console.log("this.state.userInfor"+this.state.userInfor);
             this.setState({userName:userName, userEmail:userEmail});
             console.log(this.state.userEmail);
         }
@@ -53,7 +49,6 @@ class MainBoard extends Component{
                 this.state.commentWithID.push({commentID: doc.id, comment: doc.data().comment,
                     userEmail: doc.data().userInfor.userEmail});
                 this.setState({commentWithID:this.state.commentWithID});
-                // console.log("commentWithID:"+this.state.commentWithID);
                 console.log(this.state.commentWithID.userEmail);
             });
         });
@@ -83,7 +78,6 @@ class MainBoard extends Component{
             console.log(user);
 
             // this.state.userInfor.push({userName:userName, userEmail:userEmail});
-            // this.state.userInfor.push({userEmail:userEmail});
             this.setState({userInfor:{userName:userName, userEmail:userEmail} });
             // this.setState({userInfor: this.state.userInfor});
             console.log("this.state.userInfor"+this.state.userInfor);
@@ -95,7 +89,6 @@ class MainBoard extends Component{
 
         db.collection("article").add({
             time: submitTime,
-            // userID: "no",
             userInfor: this.state.userInfor,
             comment: postText,
         })
@@ -108,13 +101,9 @@ class MainBoard extends Component{
                 let data=[];
                 querySnapshot.forEach((doc) => {
     
-                    //this.state.commentWithID.push({commentID: doc.id, comment: doc.data().comment});
-                    //this.setState({commentWithID:this.state.commentWithID});
-    
                     data.push({commentID: doc.id, comment: doc.data().comment, userEmail: doc.data().userInfor[0]});
-                    console.log(data.userEmail);
+                    // console.log(data.userEmail);
                 });
-                // console.log(this.state.commentWithID);
                 this.setState({commentWithID:data});
             });         
 
@@ -122,14 +111,6 @@ class MainBoard extends Component{
         .catch(function(error) {
             console.error("Error adding document: ", error);
         });
-
-        // 以使用者為分類存進database
-
-        // db.collection("user").doc(this.state.userInfor.userEmail).add({
-        //     time: submitTime,
-        //     userEmail: this.state.userInfor.userEmail,
-        //     comment: postText,
-        // });
 
     } 
 
@@ -149,6 +130,10 @@ class MainBoard extends Component{
         db.collection("article").doc(itemID).delete();
 
     }
+
+    moreReply(e){
+        // click展開更多回覆
+    }
     
     // 回覆相關功能
 
@@ -157,46 +142,51 @@ class MainBoard extends Component{
         
         let itemID=event.target.getAttribute("commentID");
         console.log(itemID);
+        let replyTarget=event.target.getAttribute("comment");
+        console.log(replyTarget);
 
-        this.setState({replyNow: true, replyDivID:itemID});
+        this.setState({replyNow: true, replyDivID:itemID, replyTarget:replyTarget});
 
     }
 
     sendReply(e){
         e.preventDefault();
         let replyDivID = this.state.replyDivID
-        let reply = document.getElementById("replyContent").value
-        console.log(reply);
+        let newReply = document.getElementById("replyContent").value
+        console.log(newReply);
 
-        // 以文章為分類存進database
+        // 將內容回覆存在對應內容集合下
 
         require("firebase/firestore");
 
         const submitTime = new Date()
 
-        db.collection("article").doc(replyDivID).add({
+        db.collection("article").doc(replyDivID).collection("reply").add({
             time: submitTime,
             // userInfor: this.state.userInfor,
             userEmail: this.state.userEmail,
-            reply: [reply]
+            reply:newReply
         })
         // .then((docRef) => {
-        //         console.log("Document written with comment: ", docRef.id.comment);
 
-        //     // 取出db內容傳入新陣列，再放入state(避免重複render)，顯示在畫面上
+        //     db.collection("article").get().then((querySnapshot) => {
+        //     let data=[];
+        //     querySnapshot.forEach((doc) => {
 
-        //         db.collection("article").get().then((querySnapshot) => {
-        //         let data=[];
-        //         querySnapshot.forEach((doc) => {
-    
-        //             //this.state.commentWithID.push({commentID: doc.id, comment: doc.data().comment});
-        //             //this.setState({commentWithID:this.state.commentWithID});
-    
-        //             data.push({commentID: doc.id, comment: doc.data().comment, userEmail: doc.data().userInfor[0]});
-        //             console.log(data.userEmail);
-        //         });
-        //         // console.log(this.state.commentWithID);
-        //         this.setState({commentWithID:data});
+        //         // data.push({commentID: doc.id, comment: doc.data().comment, userEmail: doc.data().userInfor[0]});
+        //         // console.log(data.userEmail);
+
+        //         data.push({});
+
+        //     });
+        //     // console.log(this.state.commentWithID);
+        //     this.setState({commentWithID:data});
+
+        //     // 要再處理讀取&確認是否有重覆存入的狀況
+        //     this.state.replyCollect.push(newReply);
+        //     this.setState({replyCollect:newReply});
+        //     console.log(this.state.replyCollect);
+
         //     });         
 
         // })
@@ -217,24 +207,28 @@ class MainBoard extends Component{
             replyBox =
                 <div className="replyInputDiv">
                     <div>回覆給：
-                        <div>{}</div>
+                        <div className="replyTarget">"{this.state.replyTarget}"</div>
                     </div>
                     <textarea id="replyContent"></textarea>
                     <div>顯示名稱：{this.state.userEmail}</div>
-                    <button id="replyBtn" onClick={this.sendReply.bind(this)}>送出</button>
-                    <button id="replyClose" onClick={this.replyClose.bind(this)}>取消</button>
+                    <button id="replyBtn" onClick={this.sendReply.bind(this)}
+                        className="editBoxItem">送出</button>
+                    <button id="replyClose" onClick={this.replyClose.bind(this)}
+                        className="editBoxItem">取消</button>
                 </div>
         }
 
         let newPostDiv = this.state.commentWithID.map((text, index)=>{
                 return  <div id={index} className="textBox">
                             <div id={index} className="textBoxNormal" 
-                            commentID={text.commentID} >{text.comment}
-                                <div>發表人：{text.userEmail}</div>
+                            commentID={text.commentID}>
+                                <div className="author">發表人：{text.userEmail}</div>
+                                {text.comment}
+
                                 <div id={index} className="editBoxShow">
-                                    <div id={index} commentID={text.commentID} 
-                                    // className="editBoxItem" onClick={this.revise.bind(this)}>訂正</div>
-                                    // <div id={index} commentID={text.commentID} 
+                                    {/* <div id={index} commentID={text.commentID} 
+                                    className="editBoxItem" onClick={this.moreReply.bind(this)}>查看</div> */}
+                                    <div id={index} commentID={text.commentID} comment={text.comment}
                                     className="editBoxItem" onClick={this.reply.bind(this)}>回覆</div>
                                     <div id={index} commentID={text.commentID} 
                                     className="editBoxItem" onClick={this.remove.bind(this)}>刪除</div>
@@ -254,7 +248,6 @@ class MainBoard extends Component{
                         <div className="postList">
                             <div className="postarea">
                                 <textarea placeholder="分享點什麼吧" id="postDiv"></textarea>
-                                {/* onChange={this.handleTextChange.bind(this)}></textarea> */}
                                 <button className="postBtn" onClick={this.addNewPost.bind(this)}>送出</button>
                             </div>
                             <div className="textBoxList">

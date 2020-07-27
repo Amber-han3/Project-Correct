@@ -116,13 +116,13 @@ class ProfilePage extends Component{
                 </div>
             </div>
 
-            <div className="profileMyPostDiv">
+            {/* <div className="profileMyPostDiv">
                 <div className="profileMainDiv">
                     <div className="loginStatus">
                         <div className="loginInforTitle">我發表的文章</div>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
         );
     }  

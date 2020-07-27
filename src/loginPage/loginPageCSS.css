@@ -8,7 +8,7 @@ html, body{
 .mainPic{
     /* background-image:url("pic01.jpg" ); */
     background-repeat:no-repeat;
-    height: 600px;
+    height: 650px;
     /* margin-top: 40px; */
     padding-top: 40px;
 
@@ -16,7 +16,13 @@ html, body{
     background-size: cover;
     background-position:center;
     position: relative;
+
+    background-attachment: fixed;
+    min-height: 100vh;
+    height: 100%;
 }
+
+/* 輸入帳號密碼(登入) */
 
 .accountDiv{
     background-color: white;
@@ -56,42 +62,87 @@ input:focus{
     width: 48px;
 }
 
+.signBtn:hover{
+    cursor: pointer;
+}
+
 .beforeSignup{
+    /* 這個是分隔線 */
     border-bottom: 1px solid grey;
     margin: 20px 0px;
 }
 
-.signup{
-    /* background-color: #3b5998;
-    color: white; */
+.toSignupPage{
     color: #3b5998;
     border: 0;
-    /* border-radius: 5px; */
 
     height:26px;
-    width: 80px;
+    width: 60px;
 
     font-size: 14px;
-    /* padding-left:5px; */
     padding-top:5px;
     margin-top: 5px;
 }
  
-.signup:hover{
-    /* color:blue;   */
-
-    /* background-color: #3b5998; */
+.toSignupPage:hover{
     background-color: #98423B;
     color: white;
     border: 0;
     border-radius: 5px;
 
     height:26px;
-    width: 80px;
+    width: 60px;
 
     font-size: 14px;
     padding-left:5px;
     padding-top:5px;
     margin-top: 5px;
 
+    cursor: pointer;
+
+}
+
+/* 註冊頁 */
+
+.signup{
+    background-color: #98423B;
+    color: white;
+    border: 0;
+    border-radius: 5px;
+
+    height:26px;
+    width: 40px;
+
+    font-size: 14px;
+    padding-left:5px;
+    padding-top:5px;
+    margin-top: 5px;
+}
+
+.signup:hover{
+    cursor: pointer;
+}
+
+.backToSignin{
+    margin-top: 15px;
+}
+
+.backToSignin:hover{
+    color: #3b5998;
+    cursor: pointer;
+}
+
+/* 網站介紹欄位 */
+
+.introductionDiv{
+    background-color: white;
+    opacity:0.9;
+    padding:80px;
+    z-index: 1;
+    position: absolute;
+    margin-top: 70px;
+    /* margin-left: 500px; */
+    margin-left: 15%;
+    border-radius: 999em;
+    width:200px;height:200px;
 }

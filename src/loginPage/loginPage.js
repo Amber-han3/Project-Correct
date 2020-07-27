@@ -3,12 +3,10 @@ import "./loginPageCSS.css";
 import Pic01 from "./pic01.jpg"
 import firebase from '../board/firebase';
 
-firebase.auth();
-
 class LoginPage extends Component{
 	constructor(props){
         super(props);
-        this.state={loginState: false};
+        this.state={loginState: false, signupPage:false};
     }
    
     signin(e){
@@ -30,10 +28,15 @@ class LoginPage extends Component{
             console.log(errorCode+errorMessage);
             alert("帳號或密碼輸入錯誤");
         });
-
-        // firebase.auth().onAuthStateChanged(function(user) {
-        //     console.log(user);  
         
+    }
+
+    changeToSignup(e){
+        this.setState({signupPage:true});
+    }
+
+    backToSignin(e){
+        this.setState({signupPage:false});
     }
 
     signup(e){
@@ -52,13 +55,53 @@ class LoginPage extends Component{
     }
 
 	render(){
-		return(
-            <div className="mainPic" style={{backgroundImage: "url("+Pic01+")"}}>
+        let accountDiv
+        if(this.state.signupPage){
+            // 註冊畫面
+            accountDiv =                 
+                <div className="accountDiv">
+                    <div>註冊新帳號</div>
+                    <div className="accountInputDiv">
+                        <div>帳號</div>
+                        <input id="mail" placeholder="範例：example@gmail.com"></input>
+                    </div>
+                    <div className="accountInputDiv">
+                        <div>密碼</div>
+                        <input type="password" id="password" placeholder="請勿少於6個字元"></input>
+                    </div>
+                    <div className="signup" onClick={this.signup.bind(this)}>註冊</div>
+                    <div className="backToSignin" onClick={this.backToSignin.bind(this)}>回到登入</div>
+                </div>
+
+        }else{
+            // 登入畫面
+            accountDiv =                 
                 <div className="accountDiv">
                     <div>開始使用</div>
                     <div className="accountInputDiv">
                         <div>帳號</div>
-                        <input id="mail"></input>
+                        <input id="mail" placeholder="example@gmail.com"></input>
+                    </div>
+                    <div className="accountInputDiv">
+                        <div>密碼</div>
+                        <input type="password" id="password"></input>
+                    </div>
+                    <button className="signBtn" onClick={this.signin.bind(this)}>登入</button>
+                    <div className="beforeSignup"></div>
+                    <div>或 
+                        <div className="toSignupPage" onClick={this.changeToSignup.bind(this)} >去註冊</div>
+                    </div>
+                </div>
+        }
+
+		return(
+            <div className="mainPic" style={{backgroundImage: "url("+Pic01+")"}}>
+                {accountDiv}
+                {/* <div className="accountDiv">
+                    <div>開始使用</div>
+                    <div className="accountInputDiv">
+                        <div>帳號</div>
+                        <input id="mail" placeholder="example@gmail.com"></input>
                     </div>
                     <div className="accountInputDiv">
                         <div>密碼</div>
@@ -69,9 +112,15 @@ class LoginPage extends Component{
                     <div>或 
                         <div className="signup" onClick={this.signup.bind(this)} >註冊新帳號</div>
                     </div>
+                </div> */}
+                <div className="introductionDiv">
+                    <div>關於CORRECT</div>
+                    <div>介紹？</div>
                 </div>
             </div>
-		)
+        )
+
+        
     }
 }
 
