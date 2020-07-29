@@ -15,6 +15,7 @@ import "./navbar/navbar.css";
 import MainBoard from "./board/mainBoard"
 import LoginPage from "./loginPage/loginPage";
 import ProfilePage from "./profile/profile";
+// import HomePage from "./homepage/homepage";
 
 import firebase from './board/firebase';
 
@@ -66,9 +67,9 @@ class MainPage extends React.Component{
                     </ul>
         }
         else{navbarChange =  <ul className="navbar">
-                    <li>
+                    {/* <li>
                         <Link to="/login">登入</Link> 
-                    </li>
+                    </li> */}
                 </ul>
         }
         
@@ -84,6 +85,7 @@ class MainPage extends React.Component{
                 <Switch>
                     {/* 預設顯示登入頁 */}
                     <Route exact path="/" component={LoginPage}></Route>
+                    {/* <Route exact path="/" component={HomePage}></Route> */}
 
                     <Route path="/login" component={LoginPage}></Route>
                     <Route path="/main" component={MainBoard}></Route> 

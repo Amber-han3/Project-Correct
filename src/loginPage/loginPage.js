@@ -45,11 +45,12 @@ class LoginPage extends Component{
         firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(()=>{
             alert("註冊完成");
+            this.props.history.push("/main");
         }).catch(function(error) {
             const errorCode = error.code;
             const errorMessage = error.message;
             console.log(errorCode+errorMessage);
-            alert("註冊帳號或密碼格式錯誤，註冊請在上方填入正確帳號密碼");
+            alert("註冊帳號或密碼格式錯誤，請填入正確格式帳號密碼");
 
         });
     }
@@ -77,7 +78,7 @@ class LoginPage extends Component{
             // 登入畫面
             accountDiv =                 
                 <div className="accountDiv">
-                    <div>開始使用</div>
+                    <div>登入後繼續使用</div>
                     <div className="accountInputDiv">
                         <div>帳號</div>
                         <input id="mail" placeholder="example@gmail.com"></input>
@@ -88,8 +89,8 @@ class LoginPage extends Component{
                     </div>
                     <button className="signBtn" onClick={this.signin.bind(this)}>登入</button>
                     <div className="beforeSignup"></div>
-                    <div>或 
-                        <div className="toSignupPage" onClick={this.changeToSignup.bind(this)} >去註冊</div>
+                    <div>沒有帳號？
+                        <div className="toSignupPage" onClick={this.changeToSignup.bind(this)} >前往註冊</div>
                     </div>
                 </div>
         }
@@ -113,10 +114,10 @@ class LoginPage extends Component{
                         <div className="signup" onClick={this.signup.bind(this)} >註冊新帳號</div>
                     </div>
                 </div> */}
-                <div className="introductionDiv">
+                {/* <div className="introductionDiv">
                     <div>關於CORRECT</div>
                     <div>介紹？</div>
-                </div>
+                </div> */}
             </div>
         )
 

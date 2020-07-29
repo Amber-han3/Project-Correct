@@ -147,13 +147,37 @@ textarea {
 }
 
 /* 回覆欄位 */
+
+/* 控制右側回覆區塊位置 */
 .replyList{
-    display: flex;
+    /* display: flex; */
     width: 30%;
     justify-content: flex-end;
     margin-left: 20px;
 }
 
+/* 回覆列表內容 */
+.replyListDiv{
+    background-color: white;
+    padding: 20px;
+    width: 100%;
+    border-radius: 5px;
+    opacity: 0.95;
+}
+
+/* 回覆列表標題 */
+
+.replyListTitle{
+    background-color: white;
+}
+
+/* 沒有回覆的預設值 */
+
+.replyNotFound{
+    margin-top:10px;
+}
+
+/* 輸入回覆 */
 .replyInputDiv{
 
     width: 100%;
@@ -162,14 +186,36 @@ textarea {
     font-size: 18px;
     font-family: 微軟正黑體, Microsoft JhengHei;
     border-radius: 5px;
-    opacity: 0.9;
+    opacity: 0.95;
 
     background-color: white;
-    padding: 15px;
+    padding: 20px;
+    margin-top:10px;
 }
 
 .replyTarget{
     background-color: lightgray;
     font-weight: bold;
     margin: 5px 0px;
+    height: 24px;
+    /* width: 300px; */
+
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+/* 補充說明編輯位置用 */
+.replyNameIcon{
+    height: 15px;
+    width: 15px;
+    margin-left: 2px;
+}
+
+/* 訂正模式相關 */
+
+.reviseTitle{
+    margin-bottom: 5px;
+    color: red;
+    font-weight: bold;
 }

@@ -13,8 +13,10 @@ const db = firebase.firestore();
 class ProfilePage extends Component{
 	constructor(props){
         super(props);
-        this.state={userEmail:"沒有資料", userName:"路人", userInfor:[],
-        isEditing: false};
+        this.state={userInfor:[],
+            userName:firebase.auth().currentUser.displayName||"未設定", 
+            userEmail:firebase.auth().currentUser.email||"沒有資料", 
+            isEditing: false};
     }
 
     editUsername(){
@@ -77,8 +79,8 @@ class ProfilePage extends Component{
         let editUsername
         if(this.state.isEditing) {
             editUsername = <div className="loginInfor">
-                <div>使用者名稱：</div>
-                <input id="updateName" type="text" />
+                <div>顯示名稱：</div>
+                <input id="updateName" type="text" placeholder="換成你喜歡的名字"/>
                 <img className="profileEditIcon" src={saveChange}
                     onClick={this.updateNameData.bind(this)}></img>
                 <img className="profileEditIcon" src={cancelChange}
@@ -86,12 +88,29 @@ class ProfilePage extends Component{
             </div>
         }else{
             editUsername = <div className="loginInfor">
-                <div>使用者名稱：</div>
+                <div>顯示名稱：</div>
                 <div>{this.state.userName}</div>
-                <img className="profileEditIcon" src={edit2}
+                <img className="profileEditIcon" src={edit2} title="編輯名稱"
                 onClick={this.editUsername.bind(this)}></img>
             </div>
         }
+
+        // // 讀取發文紀錄(要另外建索引才能拿到array的東西)
+        // let myPostlist=[]
+
+        // // 讀取firebase資料
+        // db.collection("article")
+        // // .where("userEmail", "==", firebase.auth().currentUser.email)
+        // .where("userInfor", "array-contains", firebase.auth().currentUser.email)
+        // .orderBy("time", "desc").get().then((querySnapshot) => {
+        //     querySnapshot.forEach((doc) => {
+        //         myPostlist.push({commentID: doc.id, comment: doc.data().comment,
+        //             userEmail: doc.data().userInfor.userEmail,
+        //             userName: doc.data().userInfor.userName});
+        //         console.log(myPostlist);
+        //     });
+        // });
+        
 
         // 畫面渲染
 
@@ -120,6 +139,7 @@ class ProfilePage extends Component{
                 <div className="profileMainDiv">
                     <div className="loginStatus">
                         <div className="loginInforTitle">我發表的文章</div>
+                        {myPostlist}
                     </div>
                 </div>
             </div> */}
