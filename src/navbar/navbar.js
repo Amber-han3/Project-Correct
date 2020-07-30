@@ -11,7 +11,7 @@ const Navbar = () =>{
         <div className="headerLine">
             <div className="websiteTitle">CORRECT</div>
             <ul className="navbar">
-                <li>動態</li>
+                <li className="underline">動態</li>
                 <li>筆記</li>
                 <li>尋找</li>
                 <li>帳號</li>

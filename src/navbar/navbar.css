@@ -53,4 +53,21 @@ li{
 	font-size: 16px;
 
 	text-decoration: none;
+
+	position: relative;
 }
+
+/* nav底線滑動特效 */
+li:after {
+	content: '';
+	position: absolute;
+	bottom: -5px;
+	left: 0;
+	width: 0%;
+	border-bottom: 2px solid white;
+	transition: 0.4s;
+}
+li:hover:after {
+	width: 100%;
+}
+

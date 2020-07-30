@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import "./mainBoard.css";
+import "./mainBoardRWD.css";
 import boardPic01L from "./boardPic01L.jpg"
 import question from "./question.png"
+import correct from "./correct.png"
 
 import firebase from './firebase';
 
@@ -171,7 +173,9 @@ class MainBoard extends Component{
 
                 data.push({replyListID: doc.id, reply: doc.data().reply, 
                     userEmail: doc.data().userInfor.userEmail,
-                    userName: doc.data().userInfor.userName});
+                    userName: doc.data().userInfor.userName,
+                    revise:doc.data().revise,
+                    reviseOrigin:doc.data().reviseOrigin});
             });
 
             this.setState({replyCollect:data});
@@ -210,7 +214,9 @@ class MainBoard extends Component{
 
                     data.push({replyListID: doc.id, reply: doc.data().reply, 
                         userEmail: doc.data().userInfor.userEmail,
-                        userName: doc.data().userInfor.userName});
+                        userName: doc.data().userInfor.userName,
+                        revise:doc.data().revise,
+                        reviseOrigin: doc.data().reviseOrigin});
                 });
 
                 this.setState({replyCollect:data});
@@ -247,12 +253,63 @@ class MainBoard extends Component{
     }
 
     sendRevise(e){
+        e.preventDefault();
+        let reviseOrigin = this.state.replyTarget
+        let reviseText = document.getElementById("reviseContent").value
+        let replyDivID = this.state.replyDivID
 
+        // 將內容回覆存在對應內容集合下
+
+        require("firebase/firestore");
+        const submitTime = new Date()
+
+        db.collection("article").doc(replyDivID).collection("reply").add({
+            time: submitTime,
+            userInfor: {userName:this.state.userName, userEmail:this.state.userEmail},
+            userEmail: this.state.userEmail,
+            userName:this.state.userName,
+            reply:reviseText,
+            reviseOrigin: reviseOrigin,
+            revise: true
+        })
+        .then((docRef) => {
+
+            // 重新呼叫資料庫，更新畫面
+            db.collection("article").doc(replyDivID).collection("reply")
+            .orderBy("time", "desc").get().then((querySnapshot) => {
+                let data=[];
+                querySnapshot.forEach((doc) => {
+
+                    data.push({replyListID: doc.id, reply: doc.data().reply, 
+                        userEmail: doc.data().userInfor.userEmail,
+                        userName: doc.data().userInfor.userName,
+                        revise:doc.data().revise,
+                        reviseOrigin:doc.data().reviseOrigin
+                    });
+                });
+
+                this.setState({replyCollect:data});
+                console.log(this.state.replyCollect);
+
+            });
+
+            this.setState({replyCollect:this.state.replyCollect});
+            alert("訂正完成");
+
+            // 清空已送出的內容
+            document.getElementById("replyContent").value=""   
+
+        })
+        .catch(function(error) {
+            console.error("Error adding document: ", error);
+        });
     }
 
     reviseClose(e){
         this.setState({revise:false, replyNow:true});
     }
+
+    // 最終畫面渲染
 
     render(){
 
@@ -294,27 +351,28 @@ class MainBoard extends Component{
                     <div>顯示名稱<img className="replyNameIcon" src={question}
                     title="提示：可在帳號頁修改成自己喜歡的名字"></img>：{accountName}</div>
 
-                    {/* 訂正調整中 */}
                     <button id="replyClose" onClick={this.revise.bind(this)}
                         className="editBoxItem">訂正</button>
 
                     <button id="replyBtn" onClick={this.sendReply.bind(this)}
-                        className="editBoxItem">送出</button>
+                        className="editBoxItem">回覆</button>
                     <button id="replyClose" onClick={this.replyClose.bind(this)}
                         className="editBoxItem">取消</button>
 
                 </div>
         }else if(this.state.revise){
+            let reviseContent = ">>"+this.state.replyTarget
             replyBox =
                 <div className="replyInputDiv">
                     <div className="reviseTitle">訂正模式<img className="replyNameIcon" src={question}
-                    title="您可以幫忙修改發文者的文法或內容錯誤，此模式會進行特殊顯示"></img></div>
+                    title="您可以幫忙修改發文者的文法或內容錯誤，此模式會特別標註您的修改"></img></div>
                     <div>回覆給：
                         <div className="replyTarget">{this.state.replyTarget}</div>
                     </div>
-                    <textarea id="reviseContent" value={this.state.replyTarget}></textarea>
+                    <textarea id="reviseContent" 
+                        style={{color:"red"}}>{reviseContent}</textarea>
                     <div>顯示名稱<img className="replyNameIcon" src={question}
-                    title="提示：可在帳號頁修改成自己喜歡的名字"></img>：{accountName}</div>
+                        title="提示：可在帳號頁修改成自己喜歡的名字"></img>：{accountName}</div>
                     <button id="replyBtn" onClick={this.sendRevise.bind(this)}
                         className="editBoxItem">訂正</button>
                     <button id="replyClose" onClick={this.reviseClose.bind(this)}
@@ -330,21 +388,33 @@ class MainBoard extends Component{
 
             replyList = this.state.replyCollect.map((text, index)=>{
 
-            return  <div id={index} className="textBox">
-                        <div id={index} className="textBoxNormal" 
-                        replyListID={text.replyListID}>
-                            <div className="author">發表人：{text.userName||text.userEmail}</div>
-                            {text.reply}
-
-                            {/* <div id={index} className="editBoxShow">
-                                <div id={index} commentID={text.commentID} comment={text.comment}
-                                className="editBoxItem" onClick={this.reply.bind(this)}>回覆</div>
-                                <div id={index} commentID={text.commentID} 
-                                className="editBoxItem" onClick={this.remove.bind(this)}>刪除</div>
-                            </div> */}
-                        </div>
+                // 測試有被修改則變色
+                if(text.revise==true){
+                    return  <div id={index} className="textBox">
+                    <div id={index} className="textBoxNormal" 
+                    replyListID={text.replyListID}>
+                        <div className="author">{text.userName||text.userEmail}給的修改建議</div>
+                        <div className="reviseOrigin">{text.reviseOrigin}</div>
+                        <div className="textRevised">
+                            {/* <img className="revisedIcon" src={correct}
+                        title="其他人給你的修改建議"></img> */}
+                            {text.reply}</div>
                     </div>
+                </div>
+
+                }else{
+                    return  <div id={index} className="textBox">
+                    <div id={index} className="textBoxNormal" 
+                    replyListID={text.replyListID}>
+                        <div className="author">發表人：{text.userName||text.userEmail}</div>
+                        {text.reply}
+                    </div>
+                </div>
+
+                }
             })
+
+            // 有回覆與沒有任何回覆的畫面變化
 
             if(replyList.length!=0){
 

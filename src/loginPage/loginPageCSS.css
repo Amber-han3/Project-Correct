@@ -8,7 +8,7 @@ html, body{
 .mainPic{
     /* background-image:url("pic01.jpg" ); */
     background-repeat:no-repeat;
-    height: 650px;
+    /* height: 650px; */
     /* margin-top: 40px; */
     padding-top: 40px;
 
@@ -145,4 +145,36 @@ input:focus{
     margin-left: 15%;
     border-radius: 999em;
     width:200px;height:200px;
+}
+
+
+
+@media (min-width: 768px) and (max-width: 1023px) {
+
+    .accountDiv{
+        background-color: white;
+        opacity:0.9;
+        padding:80px 60px;
+        z-index: 1;
+        position: absolute;
+        margin-top: 70px;
+        margin-left: 45%;
+        border-radius: 15px;
+    }
+}
+
+
+@media (max-width: 767px) {
+
+    .accountDiv{
+        background-color: white;
+        opacity:0.9;
+        padding:80px 60px;
+        z-index: 1;
+        position: absolute;
+        margin-top: 70px;
+        margin-left: 15%;
+        border-radius: 15px;
+    }
+
 }
