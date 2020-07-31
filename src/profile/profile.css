@@ -1,5 +1,7 @@
+@import url(https://fonts.googleapis.com/earlyaccess/notosanstc.css);
+
 html, body{
-	font-family: PingFangTC, 微軟正黑體;
+	font-family: 'Noto Sans TC', PingFangTC, 微軟正黑體;
 	margin: 0;
 	padding: 0;
     border: 0;
@@ -11,9 +13,9 @@ html, body{
 
 /* 個人帳號資料 */
 .profileAllDiv{
-    max-width:1000px;
-    margin-top:70px;
-    margin-bottom:20px;
+    max-width:900px;
+    margin-top:60px;
+    margin-bottom:60px;
     display: flex;
     justify-content: center;
     margin-left: auto;
@@ -25,7 +27,7 @@ html, body{
 
 .profileBanner{
     background-repeat:no-repeat;
-    height: 450px;
+    height: 350px;
     width: 100%;
     /* margin-top: 40px; */
 

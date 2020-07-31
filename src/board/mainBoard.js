@@ -117,7 +117,7 @@ class MainBoard extends Component{
                         userName: doc.data().userInfor.userName});
                 });
                 this.setState({commentWithID:data});
-                alert("發布成功");
+                // alert("發布成功");
 
                 // 清空已送出的內容
                 document.getElementById("postDiv").value=""
@@ -225,7 +225,7 @@ class MainBoard extends Component{
             });
 
             this.setState({replyCollect:this.state.replyCollect});
-            alert("回應成功");
+            // alert("回應成功");
 
             // 清空已送出的內容
             document.getElementById("replyContent").value=""   

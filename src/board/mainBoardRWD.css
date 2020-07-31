@@ -7,7 +7,7 @@
 
 }
 
-@media (min-width: 451px) and(max-width: 767px) {
+@media (min-width: 351px) and (max-width: 767px) {
 
     .postboardAll{
         max-width:700px;

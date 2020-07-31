@@ -76,7 +76,7 @@ class MainPage extends React.Component{
         return <Router>
             <div>
                 <div className="headerLine">
-                    <div className="websiteTitle">CORRECT</div>
+                    <div className="websiteTitle"><Link to="/">CORRECT</Link></div>
                     {navbarChange}
                 </div>
 
