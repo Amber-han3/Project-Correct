@@ -323,9 +323,9 @@ class MainBoard extends Component{
 
                                 <div id={index} className="editBoxShow">
                                     <div id={index} commentID={text.commentID} comment={text.comment}
-                                    className="editBoxItem" onClick={this.reply.bind(this)}>回覆</div>
+                                    className="editBoxItem commentColor" onClick={this.reply.bind(this)}>回覆</div>
                                     <div id={index} commentID={text.commentID} 
-                                    className="editBoxItem" onClick={this.remove.bind(this)}>刪除</div>
+                                    className="editBoxItem cancelBtnColor" onClick={this.remove.bind(this)}>刪除</div>
                                 </div>
                             </div>                        
                         </div>
@@ -352,12 +352,12 @@ class MainBoard extends Component{
                     title="提示：可在帳號頁修改成自己喜歡的名字"></img>：{accountName}</div>
 
                     <button id="replyClose" onClick={this.revise.bind(this)}
-                        className="editBoxItem">訂正</button>
+                        className="editBoxItem reviseBtnColor">訂正</button>
 
                     <button id="replyBtn" onClick={this.sendReply.bind(this)}
-                        className="editBoxItem">回覆</button>
+                        className="editBoxItem commentColor">回覆</button>
                     <button id="replyClose" onClick={this.replyClose.bind(this)}
-                        className="editBoxItem">取消</button>
+                        className="editBoxItem cancelBtnColor">取消</button>
 
                 </div>
         }else if(this.state.revise){
@@ -374,9 +374,9 @@ class MainBoard extends Component{
                     <div>顯示名稱<img className="replyNameIcon" src={question}
                         title="提示：可在帳號頁修改成自己喜歡的名字"></img>：{accountName}</div>
                     <button id="replyBtn" onClick={this.sendRevise.bind(this)}
-                        className="editBoxItem">訂正</button>
+                        className="editBoxItem reviseBtnColor">訂正</button>
                     <button id="replyClose" onClick={this.reviseClose.bind(this)}
-                        className="editBoxItem">取消</button>
+                        className="editBoxItem cancelBtnColor">取消</button>
                 </div>            
         }
 

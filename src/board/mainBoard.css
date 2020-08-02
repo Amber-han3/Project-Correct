@@ -139,7 +139,7 @@ textarea {
 .editBoxItem{
     display: inline-block;
     padding: 3px;
-    height: 24px;
+    /* height: 24px; */
     width: 40px;
     margin: 0px 5px;
 
@@ -151,15 +151,39 @@ textarea {
     letter-spacing: 1px;
     text-align: center;
 
-    /* 測試中 */
-    /* background-color: #ffea98; */
-    /* background-color: #fff1ba; */
-    /* background-color: #FFDC9F */
-
 }
 
 .editBoxItem:hover{
     cursor: pointer;
+}
+
+.commentColor{
+
+    font-family: 'Noto Sans TC', 微軟正黑體, Microsoft JhengHei;
+    /* 測試中 */
+    /* background-color: #ffea98; */
+    /* background-color: #fff1ba; */
+    /* background-color: #FFDC9F */
+    /* background-color:#FAEBD7 */
+    background-color:#2b4e6c;
+    color: white;
+    
+}
+
+.cancelBtnColor{
+    font-family: 'Noto Sans TC', 微軟正黑體, Microsoft JhengHei;
+    background-color:#65686a;
+    color: white;
+}
+
+.reviseBtnColor{
+
+    font-family: 'Noto Sans TC', 微軟正黑體, Microsoft JhengHei;
+    /* 測試中 */
+    /* background-color: #fff1ba; */
+    background-color:#d45b75;
+    color: white;
+    
 }
 
 /* 回覆欄位 */
