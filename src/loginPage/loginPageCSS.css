@@ -5,11 +5,8 @@ html, body{
 	border: 0;
 }
 
-.mainPic{
-    /* background-image:url("pic01.jpg" ); */
+.mainImg{
     background-repeat:no-repeat;
-    /* height: 650px; */
-    /* margin-top: 40px; */
     padding-top: 40px;
 
     /* 背景圖片等比例縮放 */
@@ -31,7 +28,6 @@ html, body{
     z-index: 1;
     position: absolute;
     margin-top: 70px;
-    /* margin-left: 500px; */
     margin-left: 55%;
     border-radius: 15px;
 }
@@ -68,8 +64,8 @@ input:focus{
     text-align: center;
 }
 
-.beforeSignup{
-    /* 這個是分隔線 */
+/* 輸入帳密跟切換登入頁的分隔線 */
+.separateLine{
     border-bottom: 1px solid grey;
     margin: 20px 0px;
 }
@@ -77,7 +73,6 @@ input:focus{
 .toSignupPage{
     color: #3b5998;
     border: 0;
-
     height:26px;
     width: 60px;
 
@@ -104,7 +99,6 @@ input:focus{
 
     padding-right: 5px;
     cursor: pointer;
-    /* text-align: center; */
 
 }
 
@@ -149,13 +143,10 @@ input:focus{
     z-index: 1;
     position: absolute;
     margin-top: 70px;
-    /* margin-left: 500px; */
     margin-left: 15%;
     border-radius: 999em;
     width:200px;height:200px;
 }
-
-
 
 @media (min-width: 768px) and (max-width: 1023px) {
 
@@ -170,7 +161,6 @@ input:focus{
         border-radius: 15px;
     }
 }
-
 
 @media (min-width: 451px) and (max-width: 767px) {
 

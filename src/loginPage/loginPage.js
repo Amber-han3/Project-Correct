@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./loginPageCSS.css"; 
-import Pic01 from "./pic01.jpg"
+import backgroundImg from "./pic01.jpg"
 import firebase from '../board/firebase';
 
 class LoginPage extends Component{
@@ -88,7 +88,7 @@ class LoginPage extends Component{
                         <input type="password" id="password"></input>
                     </div>
                     <button className="signBtn" onClick={this.signin.bind(this)}>登入</button>
-                    <div className="beforeSignup"></div>
+                    <div className="separateLine"></div>
                     <div>沒有帳號？
                         <div className="toSignupPage" onClick={this.changeToSignup.bind(this)} >前往註冊</div>
                     </div>
@@ -96,31 +96,10 @@ class LoginPage extends Component{
         }
 
 		return(
-            <div className="mainPic" style={{backgroundImage: "url("+Pic01+")"}}>
+            <div className="mainImg" style={{backgroundImage: "url("+backgroundImg+")"}}>
                 {accountDiv}
-                {/* <div className="accountDiv">
-                    <div>開始使用</div>
-                    <div className="accountInputDiv">
-                        <div>帳號</div>
-                        <input id="mail" placeholder="example@gmail.com"></input>
-                    </div>
-                    <div className="accountInputDiv">
-                        <div>密碼</div>
-                        <input type="password" id="password"></input>
-                    </div>
-                    <button className="signBtn" onClick={this.signin.bind(this)}>登入</button>
-                    <div className="beforeSignup"></div>
-                    <div>或 
-                        <div className="signup" onClick={this.signup.bind(this)} >註冊新帳號</div>
-                    </div>
-                </div> */}
-                {/* <div className="introductionDiv">
-                    <div>關於CORRECT</div>
-                    <div>介紹？</div>
-                </div> */}
             </div>
         )
-
         
     }
 }

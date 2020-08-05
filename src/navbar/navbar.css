@@ -9,18 +9,11 @@ html, body{
 
 body{
 	background-color: #F5F5F5;
-
-	/* background: linear-gradient(-180deg, #BCC5CE 0%, #929EAD 98%), radial-gradient(at top left, rgba(255,255,255,0.30) 0%, rgba(0,0,0,0.30) 100%);
- background-blend-mode: screen; */
 }
 
 a,a:link,a:visited{color:inherit; text-decoration: none}
 
 .headerLine{
-	/* background-color:#3b5998; */
-	
-	/* 背景色透明，opacity會連字一起不見 */
-	/* background-color:transparent; */
 
 	background: rgba(22,29, 48, 0.8);
 	position: fixed;
@@ -39,10 +32,9 @@ a,a:link,a:visited{color:inherit; text-decoration: none}
 	display: flex;
 	justify-content: left;
 	letter-spacing: 2px;
-	/* padding:5px; */
 
 	font-family: 'Noto Sans TC';
-	/* font-family: din condensed light; */
+
 }
 
 .navbar{

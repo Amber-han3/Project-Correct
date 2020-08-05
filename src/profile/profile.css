@@ -7,10 +7,6 @@ html, body{
     border: 0;
 }
 
-/* .profilePic{
-
-} */
-
 /* 個人帳號資料 */
 .profileAllDiv{
     max-width:900px;
@@ -22,20 +18,16 @@ html, body{
     margin-right: auto;
     z-index:2;
     background-color: white;
-    /* position: absolute; */
 }
 
 .profileBanner{
     background-repeat:no-repeat;
     height: 350px;
     width: 100%;
-    /* margin-top: 40px; */
 
     /* 背景圖片等比例縮放 */
     background-size: cover;
     background-position:center;
-    /* background-size: contain; */
-    /* position: relative; */
 }
 
 .profileMainDiv{
