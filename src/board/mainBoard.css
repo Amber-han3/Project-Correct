@@ -9,7 +9,6 @@
     background-repeat:no-repeat;
     min-height: 100vh;
     height: 100%;
-
 }
 
 .postboardAll{
@@ -69,6 +68,10 @@ textarea {
     border-radius: 5px;
 }
 
+.postBtn:hover{
+    cursor: pointer;
+}
+
 .textBoxList{
     margin-top: 20px;
 }
@@ -111,7 +114,7 @@ textarea {
     margin: 10px 0px;
 }
 
-.editBoxItem{
+.editButtons{
     display: inline-block;
     padding: 3px;
     width: 40px;
@@ -126,7 +129,7 @@ textarea {
     text-align: center;
 }
 
-.editBoxItem:hover{
+.editButtons:hover{
     cursor: pointer;
 }
 

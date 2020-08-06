@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./profile.css"; 
-import profile_default02 from "./profile_default02.jpg"
+import profile_default from "./profile_default02.jpg"
 import firebase from '../board/firebase';
 import edit2 from "./edit2.png"
 import saveChange from "./saveChange.png"
@@ -88,8 +88,8 @@ class ProfilePage extends Component{
             <div>
             <div className="profileAllDiv">
                 <div className="profileMainDiv">
-                    <div className="profileBanner" style={{backgroundImage: "url("+profile_default02+")"}}>
-
+                    <div className="profileBanner" 
+                        style={{backgroundImage: "url("+profile_default+")"}}>
                     </div>
                     <div className="loginStatus">
                         <div className="loginInforTitle">帳號狀態</div>

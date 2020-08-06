@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./mainBoard.css";
 import "./mainBoardRWD.css";
-import boardPic01L from "./boardPic01L.jpg"
+import boardBackground from "./boardBackground.jpg"
 import question from "./question.png"
 
 import firebase from './firebase';
@@ -58,59 +58,51 @@ class MainBoard extends Component{
         e.preventDefault();
         let postText=document.getElementById("postDiv").value
 
-        // 讀取auth資料
         const user = firebase.auth().currentUser;
         let userName
         let userEmail
-        let photoUrl
-
         if (user != null) {
             userName = user.displayName;
             userEmail = user.email;
-            photoUrl = user.photoURL;
-            console.log(user);
-
             this.setState({userName:userName, userEmail:userEmail});
         };
 
-        // 以文章為分類存進database
-
         const submitTime = new Date()
+        if(postText!=''){
+            db.collection("article").add({
+                time: submitTime,
+                userName:userName, 
+                userEmail:userEmail,
+                comment: postText,
+            })
+            .then((docRef) => {
 
-        db.collection("article").add({
-            time: submitTime,
-            userName:userName, 
-            userEmail:userEmail,
-            comment: postText,
-        })
-        .then((docRef) => {
-
-            // 取出db內容傳入新陣列，再放入state(避免重複render)，顯示在畫面上
-             db.collection("article").orderBy("time", "desc").get().then((querySnapshot) => {
-                let data=[];
-                querySnapshot.forEach((doc) => {
-                    data.push({commentID: doc.id, comment: doc.data().comment, 
-                        userEmail: doc.data().userEmail,
-                        userName: doc.data().userName,
+                // 取出db內容傳入新陣列，再放入state(避免重複render)，顯示在畫面上
+                db.collection("article").orderBy("time", "desc").get().then((querySnapshot) => {
+                    let data=[];
+                    querySnapshot.forEach((doc) => {
+                        data.push({commentID: doc.id, comment: doc.data().comment, 
+                            userEmail: doc.data().userEmail,
+                            userName: doc.data().userName,
+                        });
                     });
-                });
-                this.setState({commentWithID:data});
+                    
+                    this.setState({commentWithID:data});
 
-                // 清空已送出的內容
-                document.getElementById("postDiv").value=""
-            });         
+                    // 清空已送出的內容
+                    document.getElementById("postDiv").value=""
+                });         
 
-        })
-        .catch(function(error) {
-            console.error("Error adding document: ", error);
-        });
-
+            })
+            .catch(function(error) {
+                console.error("Error adding document: ", error);
+            });
+        }
     } 
 
     remove(e){
 		e.preventDefault();
         
-        // 在state裡的id
         let indexValue=event.target.getAttribute("id");
         let textList= [...this.state.commentWithID]
         textList.splice(indexValue, 1); 
@@ -128,10 +120,8 @@ class MainBoard extends Component{
 	reply(e){
         e.preventDefault();
 
-        // 輸入回覆部分
         let replyDivID=event.target.getAttribute("commentID");
         let replyTarget=event.target.getAttribute("comment");
-
         this.setState({replyNow: true, replyDivID:replyDivID, replyTarget:replyTarget,
             showMoreReply:true});
 
@@ -158,41 +148,42 @@ class MainBoard extends Component{
         let replyDivID = this.state.replyDivID
         let newReply = document.getElementById("replyContent").value
 
-        // 將內容回覆存在對應內容集合下
+        // 將回覆存在對應內容集合下
         const submitTime = new Date()
+        
+        if(newReply!=''){
+            db.collection("article").doc(replyDivID).collection("reply").add({
+                time: submitTime,
+                userEmail: this.state.userEmail,
+                userName:this.state.userName,
+                reply:newReply
+            })
+            .then((docRef) => {
 
-        db.collection("article").doc(replyDivID).collection("reply").add({
-            time: submitTime,
-            userEmail: this.state.userEmail,
-            userName:this.state.userName,
-            reply:newReply
-        })
-        .then((docRef) => {
+                // 重新呼叫資料庫，更新畫面
+                db.collection("article").doc(replyDivID).collection("reply")
+                .orderBy("time", "desc").get().then((querySnapshot) => {
+                    let data=[];
+                    querySnapshot.forEach((doc) => {
+                        data.push({replyListID: doc.id, reply: doc.data().reply, 
+                            userEmail: doc.data().userEmail,
+                            userName: doc.data().userName,
+                            revise:doc.data().revise,
+                            reviseOrigin: doc.data().reviseOrigin});
+                    });
 
-            // 重新呼叫資料庫，更新畫面
-            db.collection("article").doc(replyDivID).collection("reply")
-            .orderBy("time", "desc").get().then((querySnapshot) => {
-                let data=[];
-                querySnapshot.forEach((doc) => {
-                    data.push({replyListID: doc.id, reply: doc.data().reply, 
-                        userEmail: doc.data().userEmail,
-                        userName: doc.data().userName,
-                        revise:doc.data().revise,
-                        reviseOrigin: doc.data().reviseOrigin});
+                    this.setState({replyCollect:data});
                 });
 
-                this.setState({replyCollect:data});
-            });
+                this.setState({replyCollect:this.state.replyCollect});
 
-            this.setState({replyCollect:this.state.replyCollect});
-
-            // 清空已送出的內容
-            document.getElementById("replyContent").value=""   
-        })
-        .catch(function(error) {
-            console.error("Error adding document: ", error);
-        });
-        
+                // 清空已送出的內容
+                document.getElementById("replyContent").value=""   
+            })
+            .catch(function(error) {
+                console.error("Error adding document: ", error);
+            }); 
+        }
     }
 
     // 關閉回覆輸入欄位
@@ -203,7 +194,6 @@ class MainBoard extends Component{
     // 訂正功能
     revise(e){
         this.setState({revise:true, replyNow:false});
-
         // 帶入原始回覆內容
         document.getElementById("reviseContent").value=this.state.replyTarget
     }
@@ -214,7 +204,7 @@ class MainBoard extends Component{
         let reviseText = document.getElementById("reviseContent").value
         let replyDivID = this.state.replyDivID
 
-        // 將內容回覆存在對應內容集合下
+        // 將回覆存在對應內容集合下
         const submitTime = new Date()
 
         db.collection("article").doc(replyDivID).collection("reply").add({
@@ -259,24 +249,20 @@ class MainBoard extends Component{
         this.setState({revise:false, replyNow:true});
     }
 
-    // 最終畫面渲染
-
     render(){
-
         // 顯示資料庫內留言資料
         let newPostDiv = this.state.commentWithID.map((text, index)=>{
             return  <div id={index} className="textBox">
                         <div id={index} className="textBoxNormal" 
                         commentID={text.commentID}>
                             <div className="author">發表人：{text.userName||text.userEmail}</div>
-                            {text.comment}
-
+                                {text.comment}
                             <div id={index} className="editMenu">
                                 <div id={index} commentID={text.commentID} comment={text.comment}
-                                    className="editBoxItem commentBtnColor" 
+                                    className="editButtons commentBtnColor" 
                                     onClick={this.reply.bind(this)}>回覆</div>
                                 <div id={index} commentID={text.commentID} 
-                                    className="editBoxItem cancelBtnColor" 
+                                    className="editButtons cancelBtnColor" 
                                     onClick={this.remove.bind(this)}>刪除</div>
                             </div>
                         </div>                        
@@ -301,14 +287,13 @@ class MainBoard extends Component{
                     </div>
                     <textarea id="replyContent"></textarea>
                     <div>顯示名稱<img className="replyNameIcon" src={question}
-                    title="提示：可在帳號頁修改成自己喜歡的名字"></img>：{accountName}</div>
-
+                        title="提示：可在帳號頁修改成自己喜歡的名字"></img>：{accountName}</div>
                     <button id="replyClose" onClick={this.revise.bind(this)}
-                        className="editBoxItem reviseBtnColor">訂正</button>
+                        className="editButtons reviseBtnColor">訂正</button>
                     <button id="replyBtn" onClick={this.sendReply.bind(this)}
-                        className="editBoxItem commentBtnColor">回覆</button>
+                        className="editButtons commentBtnColor">回覆</button>
                     <button id="replyClose" onClick={this.replyClose.bind(this)}
-                        className="editBoxItem cancelBtnColor">取消</button>
+                        className="editButtons cancelBtnColor">取消</button>
                 </div>
         }else if(this.state.revise){
             let reviseContent = ">>"+this.state.replyTarget
@@ -324,46 +309,40 @@ class MainBoard extends Component{
                     <div>顯示名稱<img className="replyNameIcon" src={question}
                         title="提示：可在帳號頁修改成自己喜歡的名字"></img>：{accountName}</div>
                     <button id="replyBtn" onClick={this.sendRevise.bind(this)}
-                        className="editBoxItem reviseBtnColor">訂正</button>
+                        className="editButtons reviseBtnColor">訂正</button>
                     <button id="replyClose" onClick={this.reviseClose.bind(this)}
-                        className="editBoxItem cancelBtnColor">取消</button>
+                        className="editButtons cancelBtnColor">取消</button>
                 </div>            
         }
-
-        // 展開回覆列表並顯示在畫面上
 
         let replyList
         let replyListDiv
         if(this.state.showMoreReply){
 
             replyList = this.state.replyCollect.map((text, index)=>{
-
                 // 有被修改則變色顯示
                 if(text.revise==true){
                     return  <div id={index} className="textBox">
-                    <div id={index} className="textBoxNormal" 
-                    replyListID={text.replyListID}>
-                        <div className="author">{text.userName||text.userEmail}給的修改建議</div>
-                        <div className="reviseOrigin">{text.reviseOrigin}</div>
-                        <div className="textRevised">
-                            {text.reply}</div>
+                        <div id={index} className="textBoxNormal" 
+                        replyListID={text.replyListID}>
+                            <div className="author">{text.userName||text.userEmail}給的修改建議</div>
+                            <div className="reviseOrigin">{text.reviseOrigin}</div>
+                            <div className="textRevised">
+                                {text.reply}</div>
+                        </div>
                     </div>
-                </div>
-
                 }else{
                     return  <div id={index} className="textBox">
-                    <div id={index} className="textBoxNormal" 
-                    replyListID={text.replyListID}>
-                        <div className="author">發表人：{text.userName||text.userEmail}</div>
-                        {text.reply}
+                        <div id={index} className="textBoxNormal" 
+                        replyListID={text.replyListID}>
+                            <div className="author">發表人：{text.userName||text.userEmail}</div>
+                            {text.reply}
+                        </div>
                     </div>
-                </div>
-
                 }
             })
 
             // 有回覆與沒有任何回覆的畫面變化
-
             if(replyList.length!=0){
                 replyListDiv = <div className="replyListDiv">
                         <div className="replyListTitle">
@@ -384,7 +363,7 @@ class MainBoard extends Component{
         }
 
         return(<div className="boardPic" 
-                style={{backgroundImage: "url("+boardPic01L+")"}}> 
+                style={{backgroundImage: "url("+boardBackground+")"}}> 
                     <div className="postboardAll" >
                         <div className="postList">
                             <div className="postarea">
