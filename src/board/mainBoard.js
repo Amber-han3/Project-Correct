@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import "./mainBoard.css";
-import "./mainBoardRWD.css";
+import React, { Component } from "react"
+import "./mainBoard.css"
+import "./mainBoardRWD.css"
 import boardBackground from "./boardBackground.jpg"
 import question from "./question.png"
 
-import firebase from './firebase';
+import firebase from './firebase'
 
 const db = firebase.firestore();
 
@@ -288,7 +288,7 @@ class MainBoard extends Component{
                     <textarea id="replyContent"></textarea>
                     <div>顯示名稱<img className="replyNameIcon" src={question}
                         title="提示：可在帳號頁修改成自己喜歡的名字"></img>：{accountName}</div>
-                    <button id="replyClose" onClick={this.revise.bind(this)}
+                    <button id="reviseBtn" onClick={this.revise.bind(this)}
                         className="editButtons reviseBtnColor">訂正</button>
                     <button id="replyBtn" onClick={this.sendReply.bind(this)}
                         className="editButtons commentBtnColor">回覆</button>
@@ -388,3 +388,4 @@ class MainBoard extends Component{
 }
 
 export default MainBoard;
+// export {replyBox}

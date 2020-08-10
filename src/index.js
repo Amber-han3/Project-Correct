@@ -6,16 +6,16 @@ import {
     Route,
     Link
   } from "react-router-dom";
-
 import { Redirect } from 'react-router'
 
-import "./navbar/navbar.css";
+import "./navbar.css";
 
 import MainBoard from "./board/mainBoard"
 import LoginPage from "./loginPage/loginPage";
 import ProfilePage from "./profile/profile";
 
 import firebase from './board/firebase';
+
 
 class MainPage extends React.Component{
     constructor(props){
