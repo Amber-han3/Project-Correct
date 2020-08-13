@@ -81,16 +81,18 @@ class LoginPage extends Component{
                     <div>登入後繼續使用</div>
                     <div className="accountInputDiv">
                         <div>帳號</div>
-                        <input id="mail" placeholder="example@gmail.com"></input>
+                        <input id="mail" placeholder="example@gmail.com" value="test@gmail.com"></input>
                     </div>
                     <div className="accountInputDiv">
                         <div>密碼</div>
-                        <input type="password" id="password"></input>
+                        <input type="password" id="password" value="test123"></input>
                     </div>
                     <button className="signBtn" onClick={this.signin.bind(this)}>登入</button>
                     <div className="separateLine"></div>
                     <div>沒有帳號？
                         <div className="toSignupPage" onClick={this.changeToSignup.bind(this)} >前往註冊</div>
+                        <div className="guest">訪客用帳號test@gmail.com</div>
+                        <div className="guest">密碼test123</div>
                     </div>
                 </div>
         }

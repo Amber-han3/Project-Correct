@@ -134,9 +134,13 @@ input:focus{
     cursor: pointer;
 }
 
+.guest{
+    font-size: 14px;
+}
+
 /* 網站介紹欄位 */
 
-.introductionDiv{
+/* .introductionDiv{
     background-color: white;
     opacity:0.9;
     padding:80px;
@@ -146,7 +150,7 @@ input:focus{
     margin-left: 15%;
     border-radius: 999em;
     width:200px;height:200px;
-}
+} */
 
 @media (min-width: 768px) and (max-width: 1023px) {
 
@@ -186,7 +190,7 @@ input:focus{
         z-index: 1;
         position: absolute;
         margin-top: 70px;
-        margin-left: 5%;
+        margin-left: 8%;
         border-radius: 15px;
     }
 
